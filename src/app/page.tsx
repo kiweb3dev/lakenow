@@ -7,6 +7,7 @@ export default function Home() {
   const [form, setForm] = useState({
     name: "",
     phone: "",
+    email: "",
     pickup: "",
     destination: "",
     service: "Water Transportation",
@@ -19,16 +20,24 @@ export default function Home() {
   };
 
   const submit = async () => {
+    // ✅ VALIDATION (required fields)
+    if (!form.name || !form.phone || !form.pickup) {
+      alert("Name, Phone, and Pickup Location are required.");
+      return;
+    }
+
     const { error } = await supabase.from("requests").insert([
       {
         customer_name: form.name,
         phone: form.phone,
+        email: form.email || null, // optional
         service_type: form.service,
         location: form.pickup,
         notes: `
 Pickup: ${form.pickup}
 Destination: ${form.destination}
-Passengers/Cargo: ${form.details}
+Email: ${form.email}
+Details: ${form.details}
 Preferred Time: ${form.time}
         `
       }
@@ -39,11 +48,12 @@ Preferred Time: ${form.time}
       return;
     }
 
-    alert("Request submitted. Dispatch team notified.");
+    alert("Request sent! LakeNow dispatch notified 🚤");
 
     setForm({
       name: "",
       phone: "",
+      email: "",
       pickup: "",
       destination: "",
       service: "Water Transportation",
@@ -56,71 +66,26 @@ Preferred Time: ${form.time}
     <main style={styles.page}>
       <div style={styles.container}>
 
-        {/* HEADER */}
         <h1 style={styles.title}>LakeNow Transport</h1>
 
         <p style={styles.subtitle}>
-          Fast Water & Land Transportation — On-Demand for Lake Communities
+          On-demand rides & delivery for land and water at Lake of the Ozarks
         </p>
 
-        <div style={styles.card}>
-          <p style={styles.cardText}>
-            On-demand transport for people, cargo & waterfront communities.
-            Rapid-response service by water and land across Lake environments.
+        {/* INFO */}
+        <div style={styles.cardBlue}>
+          <b>How it works</b>
+          <p>
+            Request a ride, delivery, or transport. We dispatch the nearest available operator.
           </p>
         </div>
 
-        {/* SERVICES */}
-        <div style={styles.card}>
-          <h3>🚤 Water Transportation</h3>
-          <ul>
-            <li>Dock-to-dock passenger transport</li>
-            <li>Marina shuttle services</li>
-            <li>Lakefront transfers</li>
-            <li>Event & charter transport</li>
-          </ul>
-
-          <h3>🚚 Land Transportation</h3>
-          <ul>
-            <li>Same-day deliveries</li>
-            <li>Cargo & equipment transport</li>
-            <li>Marina supply delivery</li>
-            <li>Logistics support</li>
-          </ul>
-
-          <h3>⚡ Emergency & Priority</h3>
-          <p>Rapid-response transport for urgent requests.</p>
-        </div>
-
-        {/* WHY */}
-        <div style={styles.cardBlue}>
-          <b>Why LakeNow Transport?</b>
-          <ul>
-            <li>Fast dispatch times</li>
-            <li>Real-time coordination (manual MVP)</li>
-            <li>Water + land coverage</li>
-            <li>Professional operators</li>
-            <li>24/7 availability (pilot phase)</li>
-          </ul>
-        </div>
-
-        {/* HOW IT WORKS */}
-        <div style={styles.card}>
-          <h3>How It Works</h3>
-          <p>1. Submit your request</p>
-          <p>2. We review instantly</p>
-          <p>3. Nearest operator assigned</p>
-          <p>4. Transport is dispatched</p>
-          <p>5. Completion confirmed</p>
-        </div>
-
-        {/* FORM HEADER */}
-        <h2 style={{ marginTop: 20 }}>Book Transport</h2>
-
         {/* FORM */}
+        <h2>Book Transport</h2>
+
         <input
           name="name"
-          placeholder="Full Name"
+          placeholder="Full Name *"
           value={form.name}
           onChange={update}
           style={styles.input}
@@ -128,8 +93,16 @@ Preferred Time: ${form.time}
 
         <input
           name="phone"
-          placeholder="Phone Number"
+          placeholder="Phone Number *"
           value={form.phone}
+          onChange={update}
+          style={styles.input}
+        />
+
+        <input
+          name="email"
+          placeholder="Email (optional)"
+          value={form.email}
           onChange={update}
           style={styles.input}
         />
@@ -148,7 +121,7 @@ Preferred Time: ${form.time}
 
         <input
           name="pickup"
-          placeholder="Pickup Location (Dock / Address / Marina)"
+          placeholder="Pickup Location *"
           value={form.pickup}
           onChange={update}
           style={styles.input}
@@ -164,7 +137,7 @@ Preferred Time: ${form.time}
 
         <input
           name="time"
-          placeholder="Preferred Time (Now / ASAP / Scheduled)"
+          placeholder="Preferred Time (ASAP / Scheduled)"
           value={form.time}
           onChange={update}
           style={styles.input}
@@ -172,7 +145,7 @@ Preferred Time: ${form.time}
 
         <textarea
           name="details"
-          placeholder="Passengers, cargo, or special instructions"
+          placeholder="Passengers / cargo / instructions"
           value={form.details}
           onChange={update}
           style={{ ...styles.input, height: 100 }}
@@ -181,12 +154,6 @@ Preferred Time: ${form.time}
         <button onClick={submit} style={styles.button}>
           Book Transport
         </button>
-
-        {/* FOOTER */}
-        <div style={styles.footer}>
-          <p><b>LakeNow Transport</b></p>
-          <p>Fast. Reliable. On Demand. By Water. By Land.</p>
-        </div>
 
       </div>
     </main>
@@ -215,12 +182,6 @@ const styles: any = {
     color: "#555",
     marginBottom: 20
   },
-  card: {
-    background: "#f5f5f5",
-    padding: 15,
-    borderRadius: 10,
-    marginBottom: 15
-  },
   cardBlue: {
     background: "#e3f2fd",
     padding: 15,
@@ -245,11 +206,5 @@ const styles: any = {
     fontSize: 16,
     fontWeight: "bold",
     borderRadius: 6
-  },
-  footer: {
-    marginTop: 30,
-    textAlign: "center",
-    color: "#777",
-    fontSize: 14
   }
 };

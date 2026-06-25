@@ -48,10 +48,10 @@ export default function Home() {
       <div style={styles.container}>
         
         {/* HEADER */}
-        <h1 style={styles.title}>LakeNow</h1>
+        <h1 style={styles.title}>LakeNow Transport</h1>
 
         <p style={styles.subtitle}>
-          Lake of the Ozarks On-demand rides & delivery services
+          On-demand rides & delivery for land and water transport
         </p>
 
         {/* HOW IT WORKS */}

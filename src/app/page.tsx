@@ -1,26 +1,75 @@
+import Image from "next/image";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "LakeNow Transport",
+  description:
+    "On-demand rides & delivery across Lake of the Ozarks — by land and water.",
+  openGraph: {
+    title: "LakeNow Transport",
+    description:
+      "On-demand rides & delivery across Lake of the Ozarks — by land and water.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
+  icons: {
+    icon: "/logo.png",
+  },
+};
+
 export default function Home() {
   return (
     <main style={styles.main}>
       
       {/* HERO */}
       <section style={styles.hero}>
-        <h1 style={styles.h1}>LAKENOW TRANSPORT</h1>
-        <h2 style={styles.h2}>
-          On-Demand Rides & Delivery — By Land & Water
-        </h2>
+        
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(0,0,0,0.45)",
+            zIndex: 0,
+          }}
+        />
 
-        <p style={styles.subtext}>
-          LakeNow is the fastest way to move people, supplies, and essentials
-          across the Lake of the Ozarks.
-        </p>
+        <div style={{ position: "relative", zIndex: 1 }}>
+          
+          <Image
+            src="/logo.png"
+            alt="LakeNow Logo"
+            width={90}
+            height={90}
+            style={{ marginBottom: "20px" }}
+          />
 
-        <p style={styles.subtext}>
-          From dock to driveway, marina to home, island to town — we get you there.
-        </p>
+          <h1 style={styles.h1}>LAKENOW TRANSPORT</h1>
 
-        <div style={styles.buttonRow}>
-          <button style={styles.primaryButton}>Book a Ride</button>
-          <button style={styles.secondaryButton}>Request Delivery</button>
+          <h2 style={styles.h2}>
+            On-Demand Rides & Delivery — By Land & Water
+          </h2>
+
+          <p style={styles.subtext}>
+            LakeNow is the fastest way to move people, supplies, and essentials
+            across the Lake of the Ozarks.
+          </p>
+
+          <p style={styles.subtext}>
+            From dock to driveway, marina to home, island to town — we get you there.
+          </p>
+
+          <div style={styles.buttonRow}>
+            <button style={styles.primaryButton}>Book a Ride</button>
+            <button style={styles.secondaryButton}>Request Delivery</button>
+          </div>
         </div>
       </section>
 
@@ -99,7 +148,11 @@ const styles: Record<string, React.CSSProperties> = {
   hero: {
     padding: "80px 20px",
     textAlign: "center",
-    background: "linear-gradient(to bottom, #e0f2fe, #ffffff)",
+    backgroundImage: "url('/lake-hero.jpg')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    position: "relative",
+    color: "white",
   },
 
   h1: {
@@ -119,7 +172,7 @@ const styles: Record<string, React.CSSProperties> = {
     maxWidth: "600px",
     margin: "0 auto 12px auto",
     fontSize: "16px",
-    color: "#334155",
+    color: "white",
   },
 
   buttonRow: {

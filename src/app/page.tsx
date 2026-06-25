@@ -7,9 +7,11 @@ export default function Home() {
   const [form, setForm] = useState({
     name: "",
     phone: "",
-    service: "On-Demand Transport",
-    location: "",
-    notes: ""
+    pickup: "",
+    destination: "",
+    service: "Water Transportation",
+    details: "",
+    time: ""
   });
 
   const update = (e: any) => {
@@ -22,8 +24,13 @@ export default function Home() {
         customer_name: form.name,
         phone: form.phone,
         service_type: form.service,
-        location: form.location,
-        notes: form.notes
+        location: form.pickup,
+        notes: `
+Pickup: ${form.pickup}
+Destination: ${form.destination}
+Passengers/Cargo: ${form.details}
+Preferred Time: ${form.time}
+        `
       }
     ]);
 
@@ -32,64 +39,88 @@ export default function Home() {
       return;
     }
 
-    alert("Request received — nearest driver/captain will respond 🚤");
+    alert("Request submitted. Dispatch team notified.");
 
     setForm({
       name: "",
       phone: "",
-      service: "On-Demand Transport",
-      location: "",
-      notes: ""
+      pickup: "",
+      destination: "",
+      service: "Water Transportation",
+      details: "",
+      time: ""
     });
   };
 
   return (
     <main style={styles.page}>
       <div style={styles.container}>
-        
+
         {/* HEADER */}
         <h1 style={styles.title}>LakeNow Transport</h1>
 
         <p style={styles.subtitle}>
-          On-demand rides & delivery for land and water transport
+          Fast Water & Land Transportation — On-Demand for Lake Communities
         </p>
 
-        {/* HOW IT WORKS */}
-        <div style={styles.cardBlue}>
-          <p style={styles.cardTitle}>How it works</p>
+        <div style={styles.card}>
           <p style={styles.cardText}>
-            Request a ride, delivery, or transport service. We dispatch the nearest available driver or captain.
-            <br /><br />
-            Works across <b>land vehicles</b> and <b>watercraft</b> at Lake of the Ozarks.
+            On-demand transport for people, cargo & waterfront communities.
+            Rapid-response service by water and land across Lake environments.
           </p>
         </div>
 
         {/* SERVICES */}
         <div style={styles.card}>
-          <p style={styles.cardTitle}>Services</p>
-          <p style={styles.cardText}>
-            • On-demand rides (land transport)<br/>
-            • Boat & water transport<br/>
-            • Dock-to-dock pickup & drop-off<br/>
-            • Food, ice & supply delivery<br/>
-            • Emergency lake transport requests
-          </p>
+          <h3>🚤 Water Transportation</h3>
+          <ul>
+            <li>Dock-to-dock passenger transport</li>
+            <li>Marina shuttle services</li>
+            <li>Lakefront transfers</li>
+            <li>Event & charter transport</li>
+          </ul>
+
+          <h3>🚚 Land Transportation</h3>
+          <ul>
+            <li>Same-day deliveries</li>
+            <li>Cargo & equipment transport</li>
+            <li>Marina supply delivery</li>
+            <li>Logistics support</li>
+          </ul>
+
+          <h3>⚡ Emergency & Priority</h3>
+          <p>Rapid-response transport for urgent requests.</p>
         </div>
 
-        {/* STATUS */}
-        <div style={styles.cardGrey}>
-          <b>Fast dispatch system</b>
-          <p style={{ margin: 0 }}>
-            Typical response time: 15–45 minutes (depending on demand)
-          </p>
+        {/* WHY */}
+        <div style={styles.cardBlue}>
+          <b>Why LakeNow Transport?</b>
+          <ul>
+            <li>Fast dispatch times</li>
+            <li>Real-time coordination (manual MVP)</li>
+            <li>Water + land coverage</li>
+            <li>Professional operators</li>
+            <li>24/7 availability (pilot phase)</li>
+          </ul>
         </div>
+
+        {/* HOW IT WORKS */}
+        <div style={styles.card}>
+          <h3>How It Works</h3>
+          <p>1. Submit your request</p>
+          <p>2. We review instantly</p>
+          <p>3. Nearest operator assigned</p>
+          <p>4. Transport is dispatched</p>
+          <p>5. Completion confirmed</p>
+        </div>
+
+        {/* FORM HEADER */}
+        <h2 style={{ marginTop: 20 }}>Book Transport</h2>
 
         {/* FORM */}
-        <h2 style={{ marginTop: 20 }}>Request Transport</h2>
-
         <input
           name="name"
-          placeholder="Name"
+          placeholder="Full Name"
           value={form.name}
           onChange={update}
           style={styles.input}
@@ -97,7 +128,7 @@ export default function Home() {
 
         <input
           name="phone"
-          placeholder="Phone"
+          placeholder="Phone Number"
           value={form.phone}
           onChange={update}
           style={styles.input}
@@ -109,32 +140,53 @@ export default function Home() {
           onChange={update}
           style={styles.input}
         >
-          <option>On-Demand Transport</option>
-          <option>Land Ride (Car)</option>
-          <option>Water Transport (Boat)</option>
-          <option>Dock-to-Dock Ride</option>
-          <option>Delivery (Food / Supplies)</option>
+          <option>Water Transportation</option>
+          <option>Land Transportation</option>
+          <option>Dock-to-Dock Service</option>
+          <option>Emergency Transport</option>
         </select>
 
         <input
-          name="location"
-          placeholder="Pickup / Dock / Marina Location"
-          value={form.location}
+          name="pickup"
+          placeholder="Pickup Location (Dock / Address / Marina)"
+          value={form.pickup}
+          onChange={update}
+          style={styles.input}
+        />
+
+        <input
+          name="destination"
+          placeholder="Destination"
+          value={form.destination}
+          onChange={update}
+          style={styles.input}
+        />
+
+        <input
+          name="time"
+          placeholder="Preferred Time (Now / ASAP / Scheduled)"
+          value={form.time}
           onChange={update}
           style={styles.input}
         />
 
         <textarea
-          name="notes"
-          placeholder="What do you need transported?"
-          value={form.notes}
+          name="details"
+          placeholder="Passengers, cargo, or special instructions"
+          value={form.details}
           onChange={update}
           style={{ ...styles.input, height: 100 }}
         />
 
         <button onClick={submit} style={styles.button}>
-          Request Transport
+          Book Transport
         </button>
+
+        {/* FOOTER */}
+        <div style={styles.footer}>
+          <p><b>LakeNow Transport</b></p>
+          <p>Fast. Reliable. On Demand. By Water. By Land.</p>
+        </div>
 
       </div>
     </main>
@@ -151,31 +203,23 @@ const styles: any = {
     color: "#111"
   },
   container: {
-    maxWidth: 520,
+    maxWidth: 600,
     margin: "0 auto",
     padding: 20
   },
   title: {
     fontSize: 34,
-    marginBottom: 5,
-    color: "#111"
+    fontWeight: "bold"
   },
   subtitle: {
     color: "#555",
-    marginBottom: 20,
-    fontSize: 15
+    marginBottom: 20
   },
   card: {
     background: "#f5f5f5",
     padding: 15,
     borderRadius: 10,
-    marginBottom: 10
-  },
-  cardGrey: {
-    background: "#eeeeee",
-    padding: 15,
-    borderRadius: 10,
-    marginBottom: 10
+    marginBottom: 15
   },
   cardBlue: {
     background: "#e3f2fd",
@@ -184,21 +228,13 @@ const styles: any = {
     marginBottom: 15,
     borderLeft: "5px solid #1E88E5"
   },
-  cardTitle: {
-    fontWeight: "bold",
-    marginBottom: 5
-  },
-  cardText: {
-    margin: 0,
-    color: "#444"
-  },
   input: {
     width: "100%",
     padding: 12,
     marginBottom: 10,
-    fontSize: 16,
     border: "1px solid #ddd",
-    borderRadius: 6
+    borderRadius: 6,
+    fontSize: 16
   },
   button: {
     width: "100%",
@@ -208,7 +244,12 @@ const styles: any = {
     border: "none",
     fontSize: 16,
     fontWeight: "bold",
-    borderRadius: 6,
-    cursor: "pointer"
+    borderRadius: 6
+  },
+  footer: {
+    marginTop: 30,
+    textAlign: "center",
+    color: "#777",
+    fontSize: 14
   }
 };

@@ -1,250 +1,197 @@
-"use client";
-
-import { useState } from "react";
-import { supabase } from "@/lib/supabase";
-
 export default function Home() {
-  const [form, setForm] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    pickup: "",
-    destination: "",
-    service: "Water Transportation",
-    details: "",
-    time: ""
-  });
-
-  const update = (e: any) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const submit = async () => {
-    if (!form.name || !form.phone || !form.pickup) {
-      alert("Name, Phone, and Pickup Location are required.");
-      return;
-    }
-
-    const { error } = await supabase.from("requests").insert([
-      {
-        customer_name: form.name,
-        phone: form.phone,
-        email: form.email || null,
-        service_type: form.service,
-        location: form.pickup,
-        notes: `
-Pickup: ${form.pickup}
-Destination: ${form.destination}
-Time: ${form.time}
-Details: ${form.details}
-Email: ${form.email}
-        `
-      }
-    ]);
-
-    if (error) {
-      alert(error.message);
-      return;
-    }
-
-    alert("Request sent 🚤 LakeNow dispatch notified.");
-
-    setForm({
-      name: "",
-      phone: "",
-      email: "",
-      pickup: "",
-      destination: "",
-      service: "Water Transportation",
-      details: "",
-      time: ""
-    });
-  };
-
   return (
-    <main style={styles.page}>
-      <div style={styles.container}>
+    <main style={styles.main}>
+      
+      {/* HERO */}
+      <section style={styles.hero}>
+        <h1 style={styles.h1}>LAKENOW TRANSPORT</h1>
+        <h2 style={styles.h2}>
+          On-Demand Rides & Delivery — By Land & Water
+        </h2>
 
-        {/* HEADER */}
-        <h1 style={styles.title}>LakeNow Transport</h1>
-
-        <p style={styles.subtitle}>
-          On-demand rides & delivery for land and water at Lake of the Ozarks
+        <p style={styles.subtext}>
+          LakeNow is the fastest way to move people, supplies, and essentials
+          across the Lake of the Ozarks.
         </p>
 
-        {/* HOW IT WORKS */}
-        <div style={styles.cardBlue}>
-          <b>How it works</b>
-          <p style={{ margin: 0 }}>
-            Submit a request → We dispatch the nearest operator → Ride or delivery completed in real time.
-          </p>
+        <p style={styles.subtext}>
+          From dock to driveway, marina to home, island to town — we get you there.
+        </p>
+
+        <div style={styles.buttonRow}>
+          <button style={styles.primaryButton}>Book a Ride</button>
+          <button style={styles.secondaryButton}>Request Delivery</button>
         </div>
+      </section>
 
-        {/* PRICING */}
-        <div style={styles.card}>
-          <b>Estimated Pricing (before dispatch)</b>
-          <p style={{ margin: 0 }}>
-            Dock Ride: $25–$75<br />
-            Lake Delivery (Food / Supplies): $20–$60<br />
-            Shore Ride: $15–$50<br />
-            Captain Service: $75–$200+<br />
-            Emergency Runs: varies by distance
-          </p>
+      {/* SERVICES */}
+      <section style={styles.section}>
+        <h3 style={styles.sectionTitle}>What We Do</h3>
+
+        <div style={styles.cardGrid}>
+          
+          <div style={styles.card}>
+            <h4>🚤 Water + Land Rideshare</h4>
+            <ul>
+              <li>Dock-to-dock transport</li>
+              <li>Marina pickups & drop-offs</li>
+              <li>Local land rides around the lake</li>
+              <li>Group & event transportation</li>
+            </ul>
+          </div>
+
+          <div style={styles.card}>
+            <h4>📦 Delivery Service</h4>
+            <ul>
+              <li>Groceries, drinks & essentials</li>
+              <li>Dockside & marina delivery</li>
+              <li>Parts, supplies & equipment</li>
+              <li>Last-minute lake runs</li>
+            </ul>
+          </div>
+
+          <div style={styles.card}>
+            <h4>⚡ Lake Logistics</h4>
+            <ul>
+              <li>Fast local response service</li>
+              <li>Weekend & seasonal coverage</li>
+              <li>Point-to-point transport</li>
+              <li>Built for lake life mobility</li>
+            </ul>
+          </div>
+
         </div>
+      </section>
 
-        {/* TRUST */}
-        <div style={styles.cardBlue}>
-          <b>Important</b>
-          <p style={{ margin: 0 }}>
-            All pricing is confirmed before dispatch. Services are fulfilled manually by LakeNow operators in real time.
-          </p>
-        </div>
+      {/* HOW IT WORKS */}
+      <section style={styles.sectionAlt}>
+        <h3 style={styles.sectionTitle}>How It Works</h3>
 
-        {/* FORM TITLE */}
-        <h2 style={{ marginTop: 20 }}>Send Lake Request 🚤</h2>
+        <ol style={styles.steps}>
+          <li>Request a ride or delivery</li>
+          <li>Get matched with a nearby driver or captain</li>
+          <li>Track your trip in real time</li>
+          <li>Arrive or receive — fast and simple</li>
+        </ol>
+      </section>
 
-        {/* FORM */}
-        <input
-          name="name"
-          placeholder="Full Name *"
-          value={form.name}
-          onChange={update}
-          style={styles.input}
-        />
+      {/* FOOTER CTA */}
+      <section style={styles.footerCTA}>
+        <h3>Built for Lake of the Ozarks</h3>
+        <p>
+          A local-first transport network designed for both land and water mobility.
+        </p>
 
-        <input
-          name="phone"
-          placeholder="Phone Number *"
-          value={form.phone}
-          onChange={update}
-          style={styles.input}
-        />
+        <button style={styles.primaryButton}>Get Started</button>
+      </section>
 
-        <input
-          name="email"
-          placeholder="Email (optional)"
-          value={form.email}
-          onChange={update}
-          style={styles.input}
-        />
-
-        <select
-          name="service"
-          value={form.service}
-          onChange={update}
-          style={styles.input}
-        >
-          <option>Water Transportation</option>
-          <option>Land Transportation</option>
-          <option>Dock-to-Dock Service</option>
-          <option>Emergency Transport</option>
-        </select>
-
-        <input
-          name="pickup"
-          placeholder="Pickup Location *"
-          value={form.pickup}
-          onChange={update}
-          style={styles.input}
-        />
-
-        <input
-          name="destination"
-          placeholder="Destination"
-          value={form.destination}
-          onChange={update}
-          style={styles.input}
-        />
-
-        <input
-          name="time"
-          placeholder="Preferred Time (ASAP / Scheduled)"
-          value={form.time}
-          onChange={update}
-          style={styles.input}
-        />
-
-        <textarea
-          name="details"
-          placeholder="Passengers / cargo / special instructions"
-          value={form.details}
-          onChange={update}
-          style={{ ...styles.input, height: 100 }}
-        />
-
-        {/* CTA */}
-        <button onClick={submit} style={styles.button}>
-          Send Lake Request 🚤
-        </button>
-
-        {/* FOOTER */}
-        <div style={styles.footer}>
-          LakeNow Transport — Fast. Reliable. On Demand.
-        </div>
-
-      </div>
     </main>
   );
 }
 
-/* ===== STYLES ===== */
+const styles: Record<string, React.CSSProperties> = {
+  main: {
+    fontFamily: "Arial, sans-serif",
+    color: "#0f172a",
+    lineHeight: 1.5,
+  },
 
-const styles: any = {
-  page: {
-    background: "#ffffff",
-    minHeight: "100vh",
-    fontFamily: "Arial",
-    color: "#111"
+  hero: {
+    padding: "80px 20px",
+    textAlign: "center",
+    background: "linear-gradient(to bottom, #e0f2fe, #ffffff)",
   },
-  container: {
-    maxWidth: 600,
-    margin: "0 auto",
-    padding: 20
+
+  h1: {
+    fontSize: "42px",
+    fontWeight: "800",
+    marginBottom: "10px",
+    letterSpacing: "1px",
   },
-  title: {
-    fontSize: 34,
-    fontWeight: "bold"
+
+  h2: {
+    fontSize: "22px",
+    fontWeight: "600",
+    marginBottom: "20px",
   },
-  subtitle: {
-    color: "#555",
-    marginBottom: 20
+
+  subtext: {
+    maxWidth: "600px",
+    margin: "0 auto 12px auto",
+    fontSize: "16px",
+    color: "#334155",
   },
-  card: {
-    background: "#f5f5f5",
-    padding: 15,
-    borderRadius: 10,
-    marginBottom: 15
+
+  buttonRow: {
+    marginTop: "25px",
+    display: "flex",
+    justifyContent: "center",
+    gap: "12px",
+    flexWrap: "wrap",
   },
-  cardBlue: {
-    background: "#e3f2fd",
-    padding: 15,
-    borderRadius: 10,
-    marginBottom: 15,
-    borderLeft: "5px solid #1E88E5"
-  },
-  input: {
-    width: "100%",
-    padding: 12,
-    marginBottom: 10,
-    border: "1px solid #ddd",
-    borderRadius: 6,
-    fontSize: 16
-  },
-  button: {
-    width: "100%",
-    padding: 14,
-    background: "#1E88E5",
+
+  primaryButton: {
+    backgroundColor: "#0284c7",
     color: "white",
     border: "none",
-    fontSize: 16,
-    fontWeight: "bold",
-    borderRadius: 6,
-    cursor: "pointer"
+    padding: "12px 20px",
+    borderRadius: "8px",
+    cursor: "pointer",
+    fontWeight: "600",
   },
-  footer: {
-    marginTop: 30,
+
+  secondaryButton: {
+    backgroundColor: "white",
+    color: "#0284c7",
+    border: "2px solid #0284c7",
+    padding: "12px 20px",
+    borderRadius: "8px",
+    cursor: "pointer",
+    fontWeight: "600",
+  },
+
+  section: {
+    padding: "60px 20px",
+    maxWidth: "1100px",
+    margin: "0 auto",
+  },
+
+  sectionAlt: {
+    padding: "60px 20px",
+    backgroundColor: "#f8fafc",
     textAlign: "center",
-    color: "#777",
-    fontSize: 14
-  }
+  },
+
+  sectionTitle: {
+    fontSize: "28px",
+    marginBottom: "30px",
+    textAlign: "center",
+  },
+
+  cardGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+    gap: "20px",
+  },
+
+  card: {
+    padding: "20px",
+    border: "1px solid #e2e8f0",
+    borderRadius: "10px",
+    backgroundColor: "white",
+  },
+
+  steps: {
+    maxWidth: "600px",
+    margin: "0 auto",
+    textAlign: "left",
+    fontSize: "16px",
+  },
+
+  footerCTA: {
+    padding: "70px 20px",
+    textAlign: "center",
+    backgroundColor: "#0f172a",
+    color: "white",
+  },
 };

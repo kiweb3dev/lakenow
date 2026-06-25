@@ -16,10 +16,12 @@ export default function DeliveryPage() {
 
     const { error } = await supabase.from("requests").insert([
       {
-        type: "delivery",
-        pickup_location: pickup,
-        dropoff_location: dropoff,
-        details: item,
+        customer_name: "Customer", // placeholder (you don’t collect name here yet)
+        phone: "N/A",              // placeholder (same reason)
+        service_type: "delivery",
+        location: `${pickup} → ${dropoff}`,
+        notes: item,
+        status: "pending",
       },
     ]);
 

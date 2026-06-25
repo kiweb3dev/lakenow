@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -23,12 +26,14 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
+  const router = useRouter();
+
   return (
     <main style={styles.main}>
       
       {/* HERO */}
       <section style={styles.hero}>
-        
+
         <div
           style={{
             position: "absolute",
@@ -38,6 +43,7 @@ export default function Home() {
             bottom: 0,
             backgroundColor: "rgba(0,0,0,0.45)",
             zIndex: 0,
+            pointerEvents: "none",
           }}
         />
 
@@ -67,8 +73,19 @@ export default function Home() {
           </p>
 
           <div style={styles.buttonRow}>
-            <button style={styles.primaryButton}>Book a Ride</button>
-            <button style={styles.secondaryButton}>Request Delivery</button>
+            <button
+              style={styles.primaryButton}
+              onClick={() => router.push("/book")}
+            >
+              Book a Ride
+            </button>
+
+            <button
+              style={styles.secondaryButton}
+              onClick={() => router.push("/delivery")}
+            >
+              Request Delivery
+            </button>
           </div>
         </div>
       </section>
@@ -131,7 +148,12 @@ export default function Home() {
           A local-first transport network designed for both land and water mobility.
         </p>
 
-        <button style={styles.primaryButton}>Get Started</button>
+        <button
+          style={styles.primaryButton}
+          onClick={() => router.push("/book")}
+        >
+          Get Started
+        </button>
       </section>
 
     </main>
